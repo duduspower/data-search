@@ -9,7 +9,7 @@ from parallel import ParallelSearchStrategy
 from distributed import DistributedSearchStrategy
 
 
-DATA_DIR = Path("data")
+DATA_DIR = Path("generatorForSyntheticalData/data")
 WORKER_COUNTS = [1, 2, 4, 8, 12]
 
 CONDITIONS = [

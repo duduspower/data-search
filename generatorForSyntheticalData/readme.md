@@ -7,3 +7,8 @@ Przykładowe wywołanie : python syntheticalDataGenerator.py 1000
 
 Bardziej złożone wywołanie z podaniem folderu docelowego i nazwy pliku :
 python syntheticalDataGenerator.py 50000 --output-dir data --filename employees_custom.csv
+
+odpalenie benchmarka do wszystkich testów :
+z terminala odpalić :
+python dataProcessors\benchmarkAll.py
+
