@@ -1,0 +1,50 @@
+[
+  {
+    "name": "city_eq_warszawa",
+    "filters": [
+      {
+        "field": "city",
+        "operator": "==",
+        "value": "Warszawa"
+      }
+    ],
+    "combine": "and",
+    "index_field": "city"
+  },
+  {
+    "name": "salary_gt_12000",
+    "filters": [
+      {
+        "field": "salary",
+        "operator": ">",
+        "value": 12000
+      }
+    ],
+    "combine": "and",
+    "index_field": "salary"
+  },
+  {
+    "name": "department_eq_it",
+    "filters": [
+      {
+        "field": "department",
+        "operator": "==",
+        "value": "IT"
+      }
+    ],
+    "combine": "and",
+    "index_field": "department"
+  },
+  {
+    "name": "last_name_contains_ski",
+    "filters": [
+      {
+        "field": "last_name",
+        "operator": "contains",
+        "value": "ski"
+      }
+    ],
+    "combine": "and",
+    "index_field": "last_name"
+  }
+]

@@ -13,6 +13,18 @@ from linear import LinearSearchStrategy
 from parallel import ParallelSearchStrategy
 
 
+def load_distributed_strategy():
+    try:
+        from distributed import DistributedSearchStrategy
+    except ModuleNotFoundError as exc:
+        if exc.name == "ray":
+            raise RuntimeError(
+                "Strategia distributed wymaga biblioteki Ray. Zainstaluj ja komenda: pip install ray"
+            ) from exc
+        raise
+    return DistributedSearchStrategy
+
+
 class Condition:
     def __and__(self, other: "Condition") -> "AndCondition":
         return AndCondition.of(self, other)
@@ -106,7 +118,7 @@ def record_key(record: dict[str, Any]) -> Any:
 
 class SearchEngine:
     def available_strategies(self) -> list[str]:
-        return ["indexed", "linear", "parallel"]
+        return ["indexed", "linear", "parallel", "distributed"]
 
     def create_strategy(self, name: str, **options: Any):
         if name == "linear":
@@ -115,6 +127,12 @@ class SearchEngine:
             return IndexedSearchStrategy(index_field=options.get("index_field", "id"))
         if name == "parallel":
             return ParallelSearchStrategy(workers=options.get("workers", 2))
+        if name == "distributed":
+            strategy_class = load_distributed_strategy()
+            return strategy_class(
+                workers=options.get("workers", 2),
+                address=options.get("address"),
+            )
         raise ValueError(f"Nieznana strategia: {name}")
 
     def search(
@@ -159,4 +177,3 @@ class SearchEngine:
             return [record for record in data if record_key(record) in matching_keys]
 
         raise TypeError(f"Nieobslugiwany typ warunku: {type(condition).__name__}")
-

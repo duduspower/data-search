@@ -16,15 +16,20 @@ def main() -> None:
     engine = SearchEngine()
     results = engine.search(data, field("city") == "Warszawa", strategy="indexed", index_field="city")
     benchmark_results = run_benchmark(data[:1000], workers=2)
+    benchmark_errors = [result for result in benchmark_results if result.error_message]
+    successful_results = [result for result in benchmark_results if not result.error_message]
 
     print(f"Dataset: {datasets[0]}")
     print(f"Records loaded: {len(data)}")
     print(f"Warszawa results: {len(results)}")
     print(f"Benchmark rows: {len(benchmark_results)}")
-    print(f"Benchmark OK: {all(result.equals_linear for result in benchmark_results)}")
+    print(f"Benchmark OK: {all(result.equals_linear for result in successful_results)}")
+    if benchmark_errors:
+        print("Benchmark errors:")
+        for result in benchmark_errors:
+            print(f"- {result.strategy}: {result.error_message}")
 
 
 if __name__ == "__main__":
     freeze_support()
     main()
-
