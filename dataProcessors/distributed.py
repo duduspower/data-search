@@ -4,7 +4,19 @@ from partitioning import partition_data
 from search_utils import filter_data
 
 
+import threading
+import ray
+
+
 def ensure_ray_initialized(address: str | None = None) -> None:
+    print(
+        "[RAY INIT DEBUG]",
+        "current_thread=",
+        threading.current_thread().name,
+        "is_main_thread=",
+        threading.current_thread() is threading.main_thread(),
+    )
+
     if not ray.is_initialized():
         if address:
             ray.init(address=address, ignore_reinit_error=True)
